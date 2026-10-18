@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy | Pedigree</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main class="doc">
+  <a class="back" href="/">Back to Pedigree</a>
+  <h1>Privacy</h1>
+  <p>Last updated October 18, 2026. Pedigree is a hackathon project. This page says what it does with data, in plain words.</p>
+
+  <h2>What it reads</h2>
+  <p>When a model id is entered, Pedigree asks the Hugging Face Hub for that model's public information: its declared license, its base model and the datasets it declares. It does the same for each parent it follows. Only public information is read. The model id you type is sent to Hugging Face to do this.</p>
+
+  <h2>What it stores</h2>
+  <p>The public facts it reads are kept in a FalkorDB graph that all users share. They are about models, not about people.</p>
+  <p>If you press Save decision, one more record is stored in a separate graph that belongs to your id only:</p>
+  <ul>
+    <li>the model id you reviewed</li>
+    <li>your decision (approved, rejected or needs review)</li>
+    <li>the note you typed, cut to 500 characters</li>
+    <li>a copy of the public lineage as it looked at that moment, and the time you saved it</li>
+  </ul>
+  <p>Please do not put personal or confidential details in a note.</p>
+
+  <h2>Your id</h2>
+  <p>There are no accounts, no passwords and no email addresses. The first time you save something, your browser makes a random id and keeps it in its local storage on your device. It is not a cookie. Anyone who has that id could ask the server for the decisions saved under it, so do not share it. If you clear your browser data, you lose the id and can no longer reach what was saved under it.</p>
+
+  <h2>Deleting your data</h2>
+  <p>The button called Delete my saved data on the main page removes everything saved under your id. The public model facts stay, because they are public information about models and are not linked to you.</p>
+
+  <h2>What it does not do</h2>
+  <ul>
+    <li>No analytics, no advertising and no tracking.</li>
+    <li>No third-party scripts, fonts or images. The pages load only their own files.</li>
+    <li>No selling or sharing of saved decisions.</li>
+  </ul>
+  <p>The server software keeps ordinary request logs while it runs, which can include the time and the address of a request.</p>
+
+  <h2>Questions</h2>
+  <p>Open an issue at <a href="https://github.com/triixdev/Pedigree/issues">github.com/triixdev/Pedigree</a>.</p>
+</main>
+</body>
+</html>

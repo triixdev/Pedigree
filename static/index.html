@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pedigree: license lineage for open AI models</title>
+<meta name="description" content="Follow a fine-tuned model back through its parents and see which license obligations went missing along the way.">
+<link rel="stylesheet" href="/style.css">
+<script src="/app.js" defer></script>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Pedigree</h1>
+    <p class="lead">A fine-tuned model carries the license of the model it came from, but its own page often says something else. Enter a model from Hugging Face and Pedigree follows it up through its parents in a FalkorDB graph, then shows where a parent's obligations seem to have gone missing.</p>
+  </header>
+
+  <section aria-labelledby="check-title">
+    <h2 id="check-title">Check a model</h2>
+    <form id="check-form" autocomplete="off">
+      <label for="model">Model id</label>
+      <input id="model" name="model" type="text" spellcheck="false" maxlength="200" required placeholder="organisation/model-name">
+
+      <div class="row">
+        <div>
+          <label for="depth">How many parents to follow</label>
+          <select id="depth" name="depth">
+            <option>1</option><option>2</option><option>3</option>
+            <option selected>4</option><option>5</option><option>6</option>
+          </select>
+        </div>
+        <div class="check">
+          <input id="refresh" type="checkbox">
+          <label for="refresh">Fetch fresh data from the Hub</label>
+        </div>
+      </div>
+
+      <button id="check-button" type="submit">Check lineage</button>
+    </form>
+
+    <p id="status" role="status" aria-live="polite"></p>
+
+    <div id="skeleton" hidden aria-hidden="true">
+      <div class="bar wide"></div>
+      <div class="block"><div class="bar"></div><div class="bar short"></div><div class="bar"></div></div>
+      <div class="block"><div class="bar"></div><div class="bar short"></div></div>
+    </div>
+
+    <div id="results" hidden>
+      <p id="summary" class="summary"></p>
+      <div id="flags"></div>
+      <p class="note">These are flags for human review. They are not legal conclusions. Open the linked pages and read the license text before acting on a flag.</p>
+      <details>
+        <summary>Raw lineage data</summary>
+        <pre id="raw"></pre>
+      </details>
+    </div>
+  </section>
+
+  <section id="notes" aria-labelledby="notes-title" hidden>
+    <h2 id="notes-title">Keep your decision</h2>
+    <p>Save what you decided about this model. Later, Pedigree can check whether the lineage has changed since you decided.</p>
+    <form id="decide-form" autocomplete="off">
+      <label for="verdict">Your decision</label>
+      <select id="verdict">
+        <option value="needs_review">Needs review</option>
+        <option value="approved">Approved</option>
+        <option value="rejected">Rejected</option>
+      </select>
+      <label for="note">Note (up to 500 characters, please keep it free of personal or confidential details)</label>
+      <textarea id="note" maxlength="500" rows="3"></textarea>
+      <button type="submit">Save decision</button>
+    </form>
+  </section>
+
+  <section aria-labelledby="saved-title">
+    <h2 id="saved-title">Your saved decisions</h2>
+    <p>Saved under a random id kept in this browser. There is no account and no sign in.</p>
+    <div class="row buttons">
+      <button id="load-button" type="button">Show my decisions</button>
+      <button id="recheck-button" type="button">Re-check them against the Hub</button>
+      <button id="forget-button" type="button" class="plain">Delete my saved data</button>
+    </div>
+    <p id="saved-status" role="status" aria-live="polite"></p>
+    <div id="saved"></div>
+  </section>
+
+  <footer>
+    <p>Only the Llama 3 and Llama 3.2 rules have been checked against the license text. Every other rule is marked unverified.</p>
+    <p><a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a> &middot; <a href="https://github.com/triixdev/Pedigree">Source code</a></p>
+  </footer>
+</main>
+</body>
+</html>

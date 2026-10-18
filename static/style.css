@@ -1,0 +1,158 @@
+:root {
+  --wine: #5e1a21;
+  --paper: #ece4d2;
+  --field: #f5efe1;
+  --ink: #221f1b;
+  --muted: #5b5347;
+  --rule: #b3a78f;
+  --accent: #6e1f27;
+  --bar: #d6cbb2;
+  --bar-light: #e4dac3;
+}
+
+* { box-sizing: border-box; border-radius: 0; }
+
+html { background: var(--wine); }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--wine);
+  font-family: ui-sans-serif, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+main {
+  max-width: 48rem;
+  margin: 2.5rem auto;
+  padding: 2.5rem 1.75rem 3rem;
+  background: var(--paper);
+}
+
+@media (max-width: 52rem) {
+  main { margin: 0 auto; }
+}
+
+h1, h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h1 { font-size: 2.5rem; margin: 0 0 0.75rem; color: var(--wine); }
+h2 { font-size: 1.5rem; margin: 0 0 0.75rem; }
+
+.lead { font-size: 1.15rem; margin: 0 0 2rem; }
+
+section { border-top: 2px solid var(--wine); padding: 1.5rem 0 2rem; }
+
+label { display: block; font-weight: 600; margin: 1rem 0 0.35rem; }
+
+input[type="text"], select, textarea {
+  width: 100%;
+  font: inherit;
+  color: var(--ink);
+  background: var(--field);
+  border: 2px solid var(--ink);
+  padding: 0.6rem 0.7rem;
+}
+
+textarea { resize: vertical; }
+
+.row { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-end; }
+.row select { min-width: 8rem; width: auto; }
+.row.buttons { align-items: center; gap: 0.75rem; margin: 1rem 0; }
+
+.check { display: flex; align-items: center; gap: 0.5rem; padding-bottom: 0.7rem; }
+.check input { width: 1.2rem; height: 1.2rem; accent-color: var(--wine); margin: 0; }
+.check label { margin: 0; font-weight: 400; }
+
+button {
+  font: inherit;
+  font-weight: 700;
+  color: var(--paper);
+  background: var(--wine);
+  border: 2px solid var(--wine);
+  padding: 0.6rem 1.1rem;
+  cursor: pointer;
+  margin-top: 1.25rem;
+}
+
+.row.buttons button { margin-top: 0; }
+
+button.plain { color: var(--wine); background: transparent; }
+
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+
+#status, #saved-status { min-height: 1.6rem; margin: 1rem 0 0; color: var(--muted); }
+#status.error, #saved-status.error { color: var(--accent); font-weight: 600; }
+
+.summary { font-family: Georgia, "Times New Roman", serif; font-size: 1.25rem; margin: 1.5rem 0 1rem; }
+
+.flag {
+  border: 2px solid var(--ink);
+  background: var(--field);
+  padding: 1rem 1.1rem;
+  margin: 0 0 1rem;
+}
+
+.flag.review { border-color: var(--wine); }
+
+.flag .tag { margin: 0 0 0.4rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.flag.review .tag { color: var(--accent); }
+.flag h3 { font-size: 1.1rem; margin: 0 0 0.6rem; font-family: ui-monospace, Consolas, "Courier New", monospace; }
+.flag dt { font-weight: 700; margin-top: 0.6rem; }
+.flag dd { margin: 0; overflow-wrap: anywhere; }
+.flag dl { margin: 0; }
+
+a { color: var(--accent); text-underline-offset: 3px; }
+
+.note { color: var(--muted); }
+
+details { margin-top: 1rem; }
+summary { cursor: pointer; font-weight: 600; }
+pre {
+  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: var(--field);
+  border: 2px solid var(--rule);
+  padding: 0.8rem;
+  font-size: 0.85rem;
+}
+
+#skeleton { margin-top: 1.5rem; }
+#skeleton .bar {
+  height: 1rem;
+  margin: 0.6rem 0;
+  background: var(--bar);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+#skeleton .bar.wide { height: 1.5rem; width: 55%; }
+#skeleton .bar.short { width: 60%; }
+#skeleton .block { border: 2px solid var(--bar); padding: 0.8rem 1.1rem; margin-top: 1rem; }
+
+@keyframes pulse {
+  0%, 100% { background: var(--bar); }
+  50% { background: var(--bar-light); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #skeleton .bar { animation: none; }
+}
+
+.saved-item { border-top: 1px solid var(--rule); padding: 0.9rem 0; }
+.saved-item:first-child { border-top: 2px solid var(--rule); }
+.saved-item p { margin: 0.2rem 0; overflow-wrap: anywhere; }
+.saved-item .id { font-family: ui-monospace, Consolas, "Courier New", monospace; font-weight: 700; }
+
+footer { border-top: 2px solid var(--wine); padding-top: 1.25rem; color: var(--muted); font-size: 0.95rem; }
+
+.doc h1 { font-size: 2rem; }
+.doc h2 { margin-top: 2rem; }
+.doc p, .doc li { max-width: 40rem; }
+.doc ul { padding-left: 1.2rem; }
+.back { display: inline-block; margin-bottom: 1.5rem; }

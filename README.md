@@ -1,6 +1,6 @@
 # Pedigree
 
-A fine-tuned model carries the license of the model it was made from. The fine-tune's own page on Hugging Face often says something different. Pedigree was built to catch that. It keeps models, datasets and licenses in a FalkorDB graph, follows a model up through its parents and points out where a parent's obligations seem to have gone missing.
+A fine-tuned model carries the license of the model it was made from. The fine-tune's own page on Hugging Face often says something different. Pedigree was built to catch that. It keeps models, datasets and licenses in a FalkorDB graph, follows a model up through its parents, and points out where a parent's obligations seem to have gone missing.
 
 Every flag shows the path it followed and links to the pages it came from, so a person can check it by hand in a minute. A flag only means someone should take a look. It is not a legal opinion.
 
@@ -8,7 +8,7 @@ It was made during Graph Hacks (WeMakeDevs and FalkorDB, October 15 to 18, 2026)
 
 ## Why a graph
 
-Take a Llama 3.2 fine-tune that declares MIT. Llama 3.2 asks for a notice, a naming rule and an acceptable use policy and the MIT page mentions none of them. The gap only shows when the two pages are read side by side and real chains can run longer than two models. The author decided that made it a question about how things connect and the data went into a graph.
+Take a Llama 3.2 fine-tune that declares MIT. Llama 3.2 asks for a notice, a naming rule and an acceptable use policy, and the MIT page mentions none of them. The gap only shows when the two pages are read side by side, and real chains can run longer than two models. The author decided that made it a question about how things connect, so the data went into a graph.
 
 ## What happens when a model is checked
 
@@ -22,46 +22,62 @@ Output looks like this. The model id is a placeholder because the real one belon
 [REVIEW] license_dropped
   path:   <fine-tune id> -> meta-llama/Llama-3.2-1B
   why:    declares mit, which does not carry derivative_naming, redistribution_notice,
-          use_restrictions but its finetune parent is under llama3.2, which does.
+          use_restrictions, but its finetune parent is under llama3.2, which does.
   source: <fine-tune page>  <parent page>
 ```
 
-Besides `license_dropped` there are warnings for unknown licenses and missing parents and a note when a model does not declare its training data.
+Besides `license_dropped`, there are warnings for unknown licenses and missing parents, and a note when a model does not declare its training data.
 
 ## How FalkorDB fits in
 
-The flag comes from walking the lineage in the graph and the path it walked is the explanation shown to the reader. Without the graph there would be nothing to show for a flag.
+The flag comes from walking the lineage in the graph, and the path it walked is the explanation shown to the reader. Without the graph there would be nothing to show for a flag.
 
-Checking a model again deletes its old parent links first. Model cards change and the graph should not keep a relationship the publisher has since removed.
+Checking a model again deletes its old parent links first. Model cards change, and the graph should not keep a relationship the publisher has since removed.
 
-Model ids come from the internet. So each one is matched against a strict `org/name` pattern before anything touches a query and depth is capped at 6.
+Model ids come from the internet, so each one is matched against a strict `org/name` pattern before anything touches a query, and depth is capped at 6.
 
 ## Running it
 
 Python 3.12 and Docker are needed.
 
-```
-docker run -p 6379:6379 -it --rm falkordb/falkordb:latest
+Start FalkorDB. This keeps the database reachable only from the local machine, and port 3000 serves FalkorDB Browser for looking at the graph:
 
+```
+docker run -d --name falkor -p 127.0.0.1:6379:6379 -p 127.0.0.1:3000:3000 falkordb/falkordb:latest
+```
+
+Set up Python and run the tests:
+
+```
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
-
 python -m pytest tests -q
+```
+
+Check one model from the command line:
+
+```
 python -m scripts.check <org/model-name>
+```
+
+Or start the web page and open http://127.0.0.1:8000:
+
+```
+uvicorn pedigree.web:app
 ```
 
 Gated models need a Hugging Face token in the `HF_TOKEN` environment variable. A FalkorDB instance with a password reads it from `FALKORDB_PASSWORD`. Neither value is ever written to the repo.
 
 ## What was checked and what was not
 
-Only the Llama 3 and Llama 3.2 rules were checked against the license text. Every other rule in `pedigree/rules.py` is marked unverified. So results for other licenses are leads and nothing more.
+Only the Llama 3 and Llama 3.2 rules were checked against the license text. Every other rule in `pedigree/rules.py` is marked unverified, so results for other licenses are leads and nothing more.
 
-On October 18, 2026 the author read 60 of the most downloaded fine-tunes of Llama-3.2-1B. Six declared Apache-2.0 or MIT. The sample was picked by download count and is not random. So it says nothing about the Hub as a whole.
+On October 18, 2026 the author read 60 of the most downloaded fine-tunes of Llama-3.2-1B. Six declared Apache-2.0 or MIT. The sample was picked by download count and is not random, so it says nothing about the Hub as a whole.
 
 ## Privacy
 
-Pedigree reads public model metadata and asks for no personal data. Model ids belong to their authors. So the examples here and in the write-up avoid naming anyone.
+Pedigree reads public model metadata. If someone saves a decision, it is stored under a random id kept in their browser, in a separate graph: the model id, the decision, a note of up to 500 characters, a snapshot of the lineage and a time. It can be deleted from the page. Details are in `static/privacy.html`.
 
 ## Track
 
@@ -69,4 +85,4 @@ Track 01, Agents That Act on Connected Data.
 
 ## Tests
 
-`python -m pytest tests -q` passes with 30 tests at submission time.
+`python -m pytest tests -q` passes with 42 tests at submission time.

@@ -44,6 +44,9 @@ LICENSES = {
 VERIFIED = {
     "llama3": "use per Acceptable Use Policy; notice and 'Built with Meta Llama 3'; "
               "derivative model names start with 'Llama 3'",
+    "llama3.2": "text on meta-llama/Llama-3.2-1B-Instruct LICENSE.txt: copy of the agreement "
+                "and a notice file and 'Built with Llama' on redistribution; Acceptable Use "
+                "Policy incorporated by reference; naming clause for models made with it",
 }
 
 # Licenses whose obligations we cannot evaluate.

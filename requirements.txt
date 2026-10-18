@@ -1,0 +1,6 @@
+falkordb
+huggingface_hub
+fastapi
+uvicorn
+httpx
+pytest
